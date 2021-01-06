@@ -6,6 +6,11 @@ public class Node{
     data = value;
   }
 
+  public String getData(){
+    return data;
+  }
 
+  public void setData(String insert){
+    data = insert;
   }
 }
