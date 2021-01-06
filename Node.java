@@ -21,4 +21,12 @@ public class Node{
   public void setNext(Node newNext){
     next = newNext;
   }
+
+  public Node getPrev(){
+    return prev;
+  }
+
+  public void setPrev(Node newPrev){
+    prev = newPrev;
+  }
 }
