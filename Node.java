@@ -13,4 +13,12 @@ public class Node{
   public void setData(String insert){
     data = insert;
   }
+
+  public Node getNext(){
+    return next;
+  }
+
+  public void setNext(Node newNext){
+    next = newNext;
+  }
 }
