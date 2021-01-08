@@ -128,4 +128,15 @@ public class MyLinkedList{
     }
     return x.getData();
   }
+
+  public String set(int index, String value){
+    Node x = this.start;
+    Node y = this.start;
+    for(int i = 0; i < index; i++){
+      y = x.getNext();
+      x = y;
+    }
+    x.setData(value);
+    return y.getData();
+  }
 }
