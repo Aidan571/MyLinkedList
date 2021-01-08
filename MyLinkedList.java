@@ -13,8 +13,8 @@ public class MyLinkedList{
   public boolean add(String value){
     Node x = new Node(value);
     if(this.size() == 0){
-      start = x;
-      end = x;
+      this.start = x;
+      this.end = x;
       x.setPrev(null);
       x.setNext(null);
       size += 1;
@@ -22,7 +22,7 @@ public class MyLinkedList{
     }
     else if(this.size() == 1){
       x.setPrev(end);
-      end = x;
+      this.end = x;
       start.setNext(x);
       x.setNext(null);
       size += 1;
@@ -30,7 +30,7 @@ public class MyLinkedList{
     }
     else
     x.setPrev(end);
-    end = x;
+    this.end = x;
     x.setNext(null);
     size += 1;
     return true;
@@ -117,5 +117,15 @@ public class MyLinkedList{
     x.setPrev(holder1);
     size += 1;
     return true;
+  }
+
+  public String get(int index){
+    Node x = this.start;
+    Node y;
+    for(int i = 0; i < index; i++){
+      y = x.getNext();
+      x = y;
+    }
+    return x.getData();
   }
 }
