@@ -161,4 +161,18 @@ public class MyLinkedList{
       }
       return result + "]";
     }
+
+  public String toStringReversed(){
+      String result = "[";
+      Node travel = end;
+      for(int i = size - 1; i >= 0; i--){
+        if(i == 0){
+          result += travel.getData();
+        }
+        else
+        result += travel.getData() + ", ";
+        travel = travel.getPrev();
+      }
+      return result + "]";
+    }
   }
