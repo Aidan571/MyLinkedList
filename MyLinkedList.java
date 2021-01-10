@@ -15,8 +15,6 @@ public class MyLinkedList{
     if(this.size() == 0){
       this.start = x;
       this.end = x;
-      x.setPrev(null);
-      x.setNext(null);
       size += 1;
       return true;
     }
@@ -24,36 +22,27 @@ public class MyLinkedList{
       x.setPrev(end);
       this.end = x;
       start.setNext(x);
+      size += 1;
+      return true;
+    }
+    else{
+      x.setPrev(end);
+      end.setNext(x);
+      this.end = x;
       x.setNext(null);
       size += 1;
       return true;
     }
-    else
-    x.setPrev(end);
-    this.end = x;
-    x.setNext(null);
-    size += 1;
-    return true;
   }
 
-  private Node whatsNext(int index){
+  private Node whatsNode(int index){
     Node x = start;
     Node y;
     for(int i = 0; i < index; i++){
       y = x.getNext();
       x = y;
     }
-    return x.getNext();
-  }
-
-  private Node whatsPrev(int index){
-    Node x = start;
-    Node y;
-    for(int i = 0; i < index - 1; i++){
-      y = x.getNext();
-      x = y;
-    }
-    return x.getNext();
+    return x;
   }
 
   public void add(int index, String value){
@@ -69,48 +58,42 @@ public class MyLinkedList{
     else if(this.size() == 0){
       start = x;
       end = x;
-      x.setPrev(null);
-      x.setNext(null);
       size += 1;
     }
     else if(this.size() == 1){
       if(index == 0){
         start = x;
-        end.setPrev(x);
-        x.setPrev(null);
+        end.setPrev(start);
         x.setNext(end);
         size += 1;
       }
-      else
-      end = x;
-      start.setNext(x);
-      x.setPrev(start);
-      x.setNext(null);
-      size += 1;
+      else{
+        end = x;
+        start.setNext(x);
+        x.setPrev(start);
+        size += 1;
+      }
     }
-    else
-    if(index == 0){
-      start.setPrev(x);
-      x.setNext(start);
-      start = x;
-      x.setPrev(null);
-      size += 1;
+    else{
+      if(index == 0){
+        start.setPrev(x);
+        x.setNext(start);
+        start = x;
+        size += 1;
+      }
+      else if(index == this.size()){
+        this.add(value);
+      }
+      else{
+        holder0 = this.whatsNode(index);
+        holder1 = this.whatsNode(index).getPrev();
+        holder0.setPrev(x);
+        holder1.setNext(x);
+        x.setNext(holder0);
+        x.setPrev(holder1);
+        size += 1;
+      }
     }
-    else if(index == this.size()){
-      end.setNext(x);
-      x.setPrev(end);
-      end = x;
-      x.setNext(null);
-      size += 1;
-    }
-    else
-    holder0 = this.whatsNext(index);
-    holder1 = this.whatsPrev(index);
-    this.whatsNext(index).setPrev(x);
-    this.whatsPrev(index).setNext(x);
-    x.setNext(holder0);
-    x.setPrev(holder1);
-    size += 1;
   }
 
   public String get(int index){
@@ -122,10 +105,11 @@ public class MyLinkedList{
     else if(index > this.size()){
       throw new IndexOutOfBoundsException("Index: " + index + " can not be larger than the size of the LinkedList");
     }
-    else
-    for(int i = 0; i < index; i++){
-      y = x.getNext();
-      x = y;
+    else{
+      for(int i = 0; i < index; i++){
+        y = x.getNext();
+        x = y;
+      }
     }
     return x.getData();
   }
@@ -139,10 +123,11 @@ public class MyLinkedList{
     else if(index > this.size()){
       throw new IndexOutOfBoundsException("Index: " + index + " can not be larger than the size of the LinkedList");
     }
-    else
-    for(int i = 0; i < index; i++){
-      y = x.getNext();
-      x = y;
+    else{
+      for(int i = 0; i < index; i++){
+        y = x.getNext();
+        x = y;
+      }
     }
     x.setData(value);
     return y.getData();
@@ -155,12 +140,13 @@ public class MyLinkedList{
       if(i == size - 1){
         result += travel.getData();
       }
-      else
+      else{
         result += travel.getData() + ", ";
         travel = travel.getNext();
       }
-      return result + "]";
     }
+    return result + "]";
+  }
 
   public String toStringReversed(){
       String result = "[";
@@ -169,10 +155,28 @@ public class MyLinkedList{
         if(i == 0){
           result += travel.getData();
         }
-        else
-        result += travel.getData() + ", ";
-        travel = travel.getPrev();
+        else{
+          result += travel.getData() + ", ";
+          travel = travel.getPrev();
+        }
       }
       return result + "]";
+    }
+    public static void main(String[]args){
+      MyLinkedList link = new MyLinkedList();
+      link.add("1");
+      link.add("2");
+      link.add("3");
+      link.add(2,"4");
+      link.add(0, "5");
+      link.add(5, "8");
+      System.out.println(link);
+      MyLinkedList test = new MyLinkedList();
+      test.add(0, "1");
+      test.add(0, "2");
+      test.add(0, "3");
+      test.set(1, "10");
+      System.out.println(test);
+      System.out.println(test.get(1));
     }
   }
