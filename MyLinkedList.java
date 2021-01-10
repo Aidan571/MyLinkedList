@@ -162,21 +162,83 @@ public class MyLinkedList{
       }
       return result + "]";
     }
-    public static void main(String[]args){
-      MyLinkedList link = new MyLinkedList();
-      link.add("1");
-      link.add("2");
-      link.add("3");
-      link.add(2,"4");
-      link.add(0, "5");
-      link.add(5, "8");
-      System.out.println(link);
-      MyLinkedList test = new MyLinkedList();
-      test.add(0, "1");
-      test.add(0, "2");
-      test.add(0, "3");
-      test.set(1, "10");
-      System.out.println(test);
-      System.out.println(test.get(1));
+
+  public String remove(int index){
+    Node x = start;
+    Node y;
+    if(index < 0){
+      throw new IndexOutOfBoundsException("Index can not be negative");
+    }
+    else if(index > this.size()){
+      throw new IndexOutOfBoundsException("Index: " + index + " can not be larger than the size of the LinkedList");
+    }
+    else if(size == 0){
+      throw new IndexOutOfBoundsException("Can not remove a value from a LinkedList with a size of 0");
+    }
+    else if(size == 1){
+      x = start;
+      size = 0;
+      return x.getData();
+    }
+    else if(size == 2){
+      size = 1;
+      if(index == 0){
+        x = start;
+        start = end;
+        end.setPrev(null);
+        return x.getData();
+      }
+      else{
+        x = end;
+        end = start;
+        start.setNext(null);
+        return x.getData();
+      }
+    }
+    else{
+      if(index == 0){
+        x = start;
+        start = start.getNext();
+        start.setPrev(null);
+        size--;
+        return x.getData();
+      }
+      else if(index == this.size - 1){
+        x = end;
+        end = end.getPrev();
+        end.setNext(null);
+        size--;
+        return x.getData();
+      }
+      else{
+        for(int i = 0; i < index; i++){
+          y = x.getNext();
+          x = y;
+        }
+        x.getNext().setPrev(x.getPrev());
+        x.getPrev().setNext(x.getNext());
+        size--;
+        return x.getData();
+      }
+    }
+  }
+
+  public static void main(String[]args){
+    MyLinkedList link = new MyLinkedList();
+    link.add("1");
+    link.add("2");
+    link.add("3");
+    link.add(2,"4");
+    link.add(0, "5");
+    link.add(5, "8");
+    System.out.println(link);
+    MyLinkedList test = new MyLinkedList();
+    test.add(0, "1");
+    test.add(0, "2");
+    test.add(0, "3");
+    test.set(1, "10");
+    System.out.println(test);
+    System.out.println(test.remove(0));
+    System.out.println(test);
     }
   }
