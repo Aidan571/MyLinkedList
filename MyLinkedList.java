@@ -223,6 +223,24 @@ public class MyLinkedList{
     }
   }
 
+  public void extend(MyLinkedList other){
+    if(size == 0){
+      start = other.start;
+      end = other.end;
+      size = other.size;
+      other.size = 0;
+    }
+    else if(other.size == 0){
+    }
+    else{
+      other.start.setPrev(end);
+      end.setNext(other.start);
+      end = other.end;
+      size += other.size;
+      other.size = 0;
+    }
+  }
+
   public static void main(String[]args){
     MyLinkedList link = new MyLinkedList();
     link.add("1");
@@ -237,8 +255,17 @@ public class MyLinkedList{
     test.add(0, "2");
     test.add(0, "3");
     test.set(1, "10");
-    System.out.println(test);
+    test.add("2");
+    test.add("3");
     System.out.println(test.remove(0));
     System.out.println(test);
+    MyLinkedList extend = new MyLinkedList();
+    extend.add("Hi");
+    link.extend(extend);
+    System.out.println(extend);
+    System.out.println(link);
+    System.out.println(extend.toStringReversed());
+    System.out.println(link.end.getData());
+    System.out.println(link.toStringReversed());
     }
   }
